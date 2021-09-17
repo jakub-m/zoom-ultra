@@ -2,7 +2,7 @@
 
 Zoom uses [ultrasonic protocol][ref_zoom] to detect Zoom sessions nearby. If
 you are near a conference set, you can check spectrum analyser (e.g.
-[Spectroid][ref_spectroid] for Android) that there is constant signal around 19KHz.
+[Spectroid][ref_spectroid] for Android) that there is constant signal around 19kHz.
 
 I [recorded 74 seconds][ref_wav] of such signal from a conference room.
 
@@ -29,6 +29,12 @@ Spectrograms of the signal, chopped in 5-second intervals is as follows. Each
 "bit" has ~72ms. The longer dips are connects and disconnects. If Zoom
 broadcasts the meeting room ID, it must be in the signal before and after the
 dips.
+
+It seems that around second 8 and second 43 the conferencing set sends the room
+ID or confirmation code. Confirmation codes in Zoom have 6 letters 6\*26=156
+states. This can be represented with 156/12=13 12-level "chirps". In the
+samples I see 9 or 11 and it doesn't seem that there are chirps with two or
+more different frequencies.
 
 ![img](figs/spectro_1.png)
 ![img](figs/spectro_2.png)
