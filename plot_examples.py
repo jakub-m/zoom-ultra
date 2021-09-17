@@ -31,9 +31,11 @@ def chop(sig, samples_per_chunk):
     return [sig[s:e] for s, e in zip(k1[0:-1], k2[1:])]
 
 
-def plot_spectro(data, rate, fpath=None):
+def plot_spectro(data, rate, fpath=None, tshift=0):
     f, t, sxx = signal.spectrogram(data, rate)
+    t = t + tshift
     #sxx = np.log(sxx)
+    fig = plt.figure()
     plt.pcolormesh(t, f, sxx, shading='nearest', cmap='binary')
     plt.ylabel('Frequency [Hz]')
     plt.xlabel('Time [sec]')
@@ -41,6 +43,7 @@ def plot_spectro(data, rate, fpath=None):
         plt.show()
     else:
         plt.savefig(fpath)
+        plt.close()
 
 
 def plot_fft(data, rate, fpath=None):
@@ -49,11 +52,13 @@ def plot_fft(data, rate, fpath=None):
     xf = fftfreq(data.size, t)
     yplot = np.abs(yf)/data.size
     h = int(len(xf)/2)
+    fig = plt.figure()
     plt.grid()
-    plt.ylabel('Frequency [Hz]')
+    plt.xlabel('Frequency [Hz]')
     plt.plot(xf, yplot)
     if fpath != None:
         plt.savefig(fpath)
+        plt.close()
 
 
 def main():
@@ -65,14 +70,16 @@ def main():
     sos = signal.butter(4, 15_000, 'hp', fs=rate, output='sos')
     sig =  signal.sosfilt(sos, sig)
     sig = signal.hilbert(sig)
+    plot_fft(sig, rate, 'figs/fft_original.png')
     sig = shift_frequency(sig, -19_000, fs=rate)
     dk = 15
     sig, rate = signal.decimate(sig, dk), int(rate/dk)
 
-    for i, subsig in enumerate(chop(sig, rate*3)):
+    plot_fft(sig, rate, 'figs/fft_decimated.png')
+    chunk_size = rate*5
+    for i, subsig in enumerate(chop(sig, chunk_size)):
         fpath='figs/spectro_{}.png'.format(i+1)
         print(fpath)
-        plot_spectro(np.real(subsig), rate, fpath=fpath)
-    plot_fft(sig, rate, 'figs/fft_all.png')
+        plot_spectro(np.real(subsig), rate, fpath=fpath, tshift=(i*chunk_size)/rate)
 
 main()
