@@ -37,7 +37,7 @@ def plot_spectro(data, rate, fpath=None):
     plt.pcolormesh(t, f, sxx, shading='nearest', cmap='binary')
     plt.ylabel('Frequency [Hz]')
     plt.xlabel('Time [sec]')
-    if fname == None:
+    if fpath == None:
         plt.show()
     else:
         plt.savefig(fpath)
@@ -50,6 +50,7 @@ def plot_fft(data, rate, fpath=None):
     yplot = np.abs(yf)/data.size
     h = int(len(xf)/2)
     plt.grid()
+    plt.ylabel('Frequency [Hz]')
     plt.plot(xf, yplot)
     if fpath != None:
         plt.savefig(fpath)
@@ -58,7 +59,7 @@ def plot_fft(data, rate, fpath=None):
 def main():
     fname = 'zoom_RASMXJ_20khz_2share.wav'
     s = read_wav(fname)
-    print("file {} has {} seconds", s.seconds())
+    print("file {} has {} seconds".format(fname, s.seconds()))
 
     sig, rate = s.data, s.rate
     sos = signal.butter(4, 15_000, 'hp', fs=rate, output='sos')
@@ -68,8 +69,10 @@ def main():
     dk = 15
     sig, rate = signal.decimate(sig, dk), int(rate/dk)
 
-    #for subsig in chop(sig, rate):
-    #    plot_spectro(np.real(subsig), rate)
+    for i, subsig in enumerate(chop(sig, rate*3)):
+        fpath='figs/spectro_{}.png'.format(i+1)
+        print(fpath)
+        plot_spectro(np.real(subsig), rate, fpath=fpath)
     plot_fft(sig, rate, 'figs/fft_all.png')
 
 main()
