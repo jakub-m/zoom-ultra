@@ -1,3 +1,5 @@
+**If you know how to decode the signal further, write in [this thread on HN][ref_hn]**
+
 Zoom uses [ultrasonic protocol][ref_zoom] to detect Zoom sessions nearby. If
 you are near a conference set, you can check spectrum analyser (e.g.
 [Spectroid][ref_spectroid] for Android) that there is constant signal around 19KHz.
@@ -23,9 +25,10 @@ Filtered with high-pass filter and decimeted shows clearly 12 bands spaced by 20
 
 ![img](figs/fft_decimated.png)
 
-Spectrograms of the signal, chopped in 5-second intervals is as follows. The
-dips are connects and disconnects. If Zoom broadcasts the meeting room ID, it
-must be in the signal before and after the dips.
+Spectrograms of the signal, chopped in 5-second intervals is as follows. Each
+"bit" has ~72ms. The longer dips are connects and disconnects. If Zoom
+broadcasts the meeting room ID, it must be in the signal before and after the
+dips.
 
 ![img](figs/spectro_1.png)
 ![img](figs/spectro_2.png)
@@ -45,3 +48,4 @@ must be in the signal before and after the dips.
 [ref_spectroid]:https://play.google.com/store/apps/details?id=org.intoorbit.spectrum&hl=en&gl=US
 [ref_zoom]:https://support.zoom.us/hc/en-us/articles/214629303-Direct-sharing-in-Zoom-Rooms
 [ref_wav]:./zoom_RASMXJ_20khz_2share.wav
+[ref_hn:]:https://news.ycombinator.com/
