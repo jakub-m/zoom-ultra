@@ -48,4 +48,4 @@ dips.
 [ref_spectroid]:https://play.google.com/store/apps/details?id=org.intoorbit.spectrum&hl=en&gl=US
 [ref_zoom]:https://support.zoom.us/hc/en-us/articles/214629303-Direct-sharing-in-Zoom-Rooms
 [ref_wav]:./zoom_RASMXJ_20khz_2share.wav
-[ref_hn:]:https://news.ycombinator.com/item?id=28571200
+[ref_hn]:https://news.ycombinator.com/item?id=28571200
